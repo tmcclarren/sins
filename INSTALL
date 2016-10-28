@@ -1,0 +1,86 @@
+
+SINS was developed and tested on Redhat 7.0, it needs the Qt
+library from Troll Tech (http://www.trolltech.com) to work.
+It has only been tested with Qt 2.2 and newer, at this time.
+It requires the pcap library (libpcap) for packet capture.
+
+SINS is derivative of ShowEQ.  If you are looking for that
+package, you can get it at www.sourceforge.net/projects/seq.
+
+libEQ.a requires libpthread and libz to both be installed on
+your system.  If you don't have them, you'll need to get them
+and install them.
+
+PRE-REQUISITES:
+---------------
+             minimum     suggested         from
+libraries:
+  qt         2.2         2.3.0 or newer    Trolltech
+  qt-devel   2.2         2.3.0 or newer    Trolltech
+  libpcap    0.6         0.62 or newer     LBNL
+  libEQ.a    ?                             libEQ sites
+
+compiling:
+  glibc      2.1.3-22
+  libstdc++  2.9.0-24
+  egcs       1.1.2-24
+  egcs-c++   1.1.2-24
+
+GNU tools:
+  libtool    1.3.4-3                       FSF
+  autoconf   2.13-1                        FSF
+  automake   1.4-6                         FSF
+
+Trolltech -      www.trolltech.com
+LBNL -           www.tcpdump.org
+FSF -            www.fsf.org
+libEQ sites -    libeq.trifocus.net, www.krisp.com/new/libEQ.a.gz
+
+YOU MUST MAKE SURE "md5sum libEQ.a" PRODUCES THE CORRECT MD5
+BEFORE USING!  The MD5 that should be produced can be found
+at:
+www.sourceforge.net/projects/sins
+www.sourceforge.net/projects/seq
+
+The basic install is the same as any other GNU package:
+
+./configure
+make 
+make install
+
+This installs SINS in /usr/local/bin, and puts maps and logs in
+/usr/local/share/sins/.
+make install is important, the program will not find maps
+without it.
+
+Please note that SINS requires write access to the
+/usr/local/share/sins directory at runtime, as this is where
+the internal databases and configuration files are stored.  
+
+Configuration values are stored in the file sins.conf.  The
+search path for this file is:
+	~/.sins/sins.conf
+	<install dir>/sins.conf (probably /usr/local/share/sins)
+	<install dir>/showeq.conf (ditto)
+
+It should be noted that some/many of the options in showeq.conf
+are not meaningful anymore, and that there are several/many new
+options that are available and not present in a showeq.conf file.
+Most of those options you should not have to edit in the .conf
+file directly as the values can be changed within the application.
+	
+Filters for filtering spawns from the spawnlist and map can be
+configured via a file specified in the config file
+(typically 'filters.conf').  A sample file has been included
+in the distribution which should be self explanatory.
+Spawn Alert filters can also be configured here.  The search
+path for these 2 files is:
+	<location specified in sins.conf file>
+	~/.sins/filters.conf (or alerts.conf)
+	<install dir>/filters.conf (or alerts.conf)
+
+It should be noted that the preferred way of editting these
+files is not to use a text editor, but to use the dialog provided
+inside SINS (Under the "Edit" menu).  There is an easy-to-use
+dialog to add/remove arbitrary matching strings from either the
+spawn filters or the spawn alerts.

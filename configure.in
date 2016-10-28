@@ -1,0 +1,108 @@
+dnl Process this file with autoconf to produce a configure script.
+AC_INIT(src/main.cpp)
+AC_CANONICAL_SYSTEM
+AM_CONFIG_HEADER(conf.h)
+AM_INIT_AUTOMAKE(sins, 0.4.1)
+AM_MAINTAINER_MODE
+
+dnl Checks for programs.
+AC_PROG_CC
+AC_PROG_CXX
+AC_PROG_CPP
+
+AC_C_CONST
+AC_HEADER_STDC
+AC_PROG_INSTALL
+AC_PROG_LN_S
+AC_PROG_MAKE_SET
+AM_PROG_LIBTOOL
+
+AC_LANG_CPLUSPLUS
+AC_PATH_QT_MOC
+AC_PATH_QT
+AC_LANG_CPLUSPLUS
+
+AC_TYPE_SIZE_T
+
+AC_DEFUN(SINS_CHECK_THREADING,[
+    LIBGETOPT=""
+    LIBPTHREAD=""
+    case $host_os in
+        solaris*)
+                KDE_CHECK_COMPILER_FLAG(mt, [USE_THREADS="-mt"])
+                CPPFLAGS="$CPPFLAGS -D_REENTRANT -D_POSIX_PTHREAD_SEMANTICS -DUSE_SOLARIS"
+                echo "Setting Solaris pthread compilation options"
+                ;;
+        freebsd*)
+                USE_THREADS="-D_THREAD_SAFE"
+                LIBPTHREAD="-pthread"
+		LIBGETOPT="-L/usr/local/lib/ -lgnugetopt"
+                echo "Setting FreeBSD pthread compilation options"
+                ;;
+        aix*)
+                CPPFLAGS="$CPPFLAGS -D_THREAD_SAFE"
+                LIBPTHREAD="$LIBPTHREAD -lc_r"
+                echo "Setting AIX pthread compilation options"
+                ;;
+        linux*) CPPFLAGS="$CPPFLAGS -D_REENTRANT"
+                AC_CHECK_LIB( pthread,
+                    pthread_create, 
+                    USE_THREADS="$USE_THREADS -DPIC -fPIC"
+                      LIBPTHREAD="-lpthread"
+                      echo "Setting Linux pthread compilation options",
+                    AC_MSG_ERROR( cannot find pthread_create in libpthread ) )
+                ;;
+        *)
+                ;;
+    esac
+    CPPFLAGS="$CPPFLAGS $USE_THREADS"
+    LDFLAGS="$LDFLAGS $LIBPTHREAD $LIBGETOPT"
+    AC_SUBST(USE_THREADS)
+    AC_SUBST(LIBPTHREAD)
+])
+
+dnl Checks for libraries.
+dnl SINS doesn't directly use pthread or libz, but libEQ.a has a call to
+dnl "pthread_testcancel" and uses the inflation routines in libz
+
+AC_REQUIRE([SINS_CHECK_THREADING])
+
+AC_CHECK_LIB( z, inflate,, AC_MSG_ERROR( cannot find compresion library functions. Be sure libz is installed ) )
+AC_CHECK_LIB( pcap, pcap_open_live,, AC_MSG_ERROR( cannot find pcap_open_live in libpcap.  Read the INSTALL file. ) )
+
+AC_ARG_ENABLE(
+	decryption,
+	[  --disable-decryption    Do not build with libEQ.a ],
+	[ AC_MSG_CHECKING( whether to build with decryption )
+		case "${enableval}" in
+			no)
+				AC_MSG_RESULT( no )
+				;;
+			yes)
+				AC_MSG_RESULT( yes );
+				AC_CHECK_LIB( EQ, ProcessPacket,, AC_MSG_ERROR( libEQ.a not found.  Be sure libEQ.a is already installed in /usr/local/lib or /usr/lib. ) )
+				;;
+		esac
+	],
+	[ AC_CHECK_LIB( EQ, ProcessPacket,, AC_MSG_ERROR( libEQ.a not found.  Be sure libEQ.a is already installed in /usr/local/lib or /usr/lib. ) ) ]
+)
+
+AC_ARG_ENABLE(
+	profiling,
+	[  --enable-profiling      Compile with profiling data for gprof ],
+	[ AC_MSG_CHECKING( whether to build with profiling )
+		case "${enableval}" in
+			no)
+				AC_MSG_RESULT( no )
+				;;
+			yes)
+				AC_MSG_RESULT( yes );
+				CFLAGS="$CFLAGS -pg"
+				CPPFLAGS="$CPPFLAGS -pg"
+				LDFLAGS="$LDFLAGS -pg"
+				;;
+		esac
+	]
+)
+
+AC_OUTPUT([Makefile src/Makefile maps/Makefile conf/Makefile])

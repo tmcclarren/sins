@@ -1,0 +1,212 @@
+#  SINS Configuration File
+#  Note:  any values that need spaces need to be enclosed in "quotes"
+
+[Network]
+Device          eth0        # your network device
+IP              127.0.0.1   # IP of the machine to filter packets on 
+NoPromiscuous   0           # don't use promiscuous mode
+AutoResync      0           # resynch the network if we we get behind 0 = off
+
+[Filters]
+UseOldFilters   1           # disable old alert/filter method
+SpawnFilterAudio 0          #  if 1 use sound device 
+SpawnFilterIsCaseSensitive  0    #  use case sensitive matches on filters
+SpawnAudioCommand   "/usr/bin/esdplay spawn.wave &" 
+DeSpawnAudioCommand "/usr/bin/esdplay despawn.wave &" 
+DeSpawnAlert    1           #  alert on despawn of a watched spawn
+AlertInfo       1           #  shows additional spawn info in alert
+SpawnFilterFile    /usr/local/share/sins/filters.conf
+SpawnAlertFile     /usr/local/share/sins/alerts.conf
+
+[Map1]
+Framerate       10           # number of map refreshes per second
+ShowDroppedItems 1          # shows items dropped on map
+ShowUnknownSpawns 1         # shows unkown spawns on map (if missed zone data)
+VelocityLines   1           # shows velocity vectors on map
+AnimateSpawnMovement 1      # keeps moving spawns on map
+ShowMapPoints   1           # show map points of interest 
+ShowGrid        1           # show the grid
+Shown           1
+WindowX         492
+WindowY         0
+WindowH         513
+WindowW         435
+UnderfeetDepth     55
+OverheadDepth      380
+SpawnDepthFilter   0
+ShowFilterControls 0
+FadingFloors       0
+MapDepthFilter     0
+LockFilterControls 0
+ZoomLevel          2
+ShowDebugInfo      0
+
+[VPacket]
+Filename        /packets.db
+Record          0          # record to filename
+Playback        0          # playback from filename 
+PlaybackRate    1          # playback rate: 0 = fast as poss, 1 = 1x, 2 = 2x...
+CompressTime    1000       # ignore timestamps (compress time) for pckts > 1sec
+
+[Interface]
+UseWindowPos    0          # set to 1 if you want to restore the window pos
+WindowXOffset   0          # window manager decoration offset
+WindowYOffset   0          # window manager decoration offset
+WindowX         0          # x position to place mainwindow
+WindowY         0          # y position to place mainwindow
+WindowW         484        # width of main window
+WindowH         545        # height of main window
+Fontsize        8          # fontsize used in GUI
+SelectOnCon     1          # selects the spawn that you 'con' in the spawnlist
+NetStats        0          # shows network status dialog
+PvPTeamColoring 0          # colors spawnlist and map based on pvp teams etc
+UseStdout       1          # print messages to stdout (as well as messagebox)
+ShowSpawnList   1          # show the spawn list
+SplitV_Size1    135
+SplitV_Size2    277
+SplitH_Size1    526
+SplitH_Size2    484
+SplitT_Size1    1
+SplitT_Size2    167
+SplitT_Size3    215
+
+[Experience]
+WindowX         278
+WindowY         184
+WindowW	        635
+WindowH	        482	
+Shown	        0
+
+[StatusBar]
+ShowExp           1        # show total exp in status bar
+ShowPacketCounter 1        # show packet counter in status bar
+ShowSpawns        1        # show num of spawns in status bar
+ShowStatus        1        # show general status in status bar
+ShowZone          1        # show zone name in status bar
+
+[SpawnList]
+SaveWidth         0        # if set the following values will be saved
+NameWidth         135
+LevelWidth        37
+HPWidth           36
+MaxHPWidth        0 
+IDWidth           26 
+DistWidth         32
+RaceWidth         71
+ClassWidth        50
+InfoWidth         152   # comment out any of these values to make them autosize
+Category1_Name    All   # category for all spawns but filtered
+Category1_Filter  .     # regular expression matching everything
+Category2_Name    NPCs  # category for all filtered spawns 
+Category2_Filter  NPC:1 # matches npc's 
+Category3_Name    Players # category for all filtered spawns 
+Category3_Filter  NPC:0 # matches npc's 
+Category4_Name	  Shop&Bank
+Category4_Filter  Class:Shopkeeper|Class:Banker
+Category5_Name    Corpses
+Category5_Filter  corpse 
+LevelShown	  1
+XShown            1
+SpawnedWidth      101
+ClassShown        1
+SpawnedShown      1
+XWidth            47
+ZShown            1
+IDShown           1
+DistShown         1
+YShown            1
+ZWidth            57
+InfoShown         1
+RaceShown         1
+HPShown           1
+YWidth            46
+NameShown         1
+ColumnOrder        Name,Level,Class,Race,Info,HP,X,Y,Z,ID,Dist,Spawned,LastName
+LastNameShown      1
+LastNameWidth      40
+FPM                10
+
+[Log]
+LogAllPackets	  0
+LogOpCodes        0
+LogSpawns         0		# set to 0 to not log spawns
+GlobalLogFilename    ~/global.log
+OpCodeLogFilename    ~/opcode.log
+SpawnLogFilename          ~/spawns.log
+
+[Misc]
+BrokenDecode      0      # set to 1 to skip spawn packets
+
+[Drops]
+WindowH	        307
+WindowW         512
+WindowX         21
+WindowY         72
+Shown           0
+ValueShown      1
+ItemShown       1
+ItemWidth       118
+ValueWidth      98
+IDShown         1
+TimeShown       1
+IDWidth         166
+TimeWidth       128
+ColumnOrder        Time,Item,ID,Value
+
+[Messages]
+Shown           0
+WindowH         871
+WindowW         1001
+WindowX         0
+WindowY         648
+
+[Compass]
+WindowH         140
+WindowW         120
+WindowX         498
+WindowY         358
+Shown           0
+
+[Statistics]
+Shown           0
+WindowW         524
+WindowX         167
+WindowY         407
+WindowH         269
+PercentWidth    45
+StatShown       1
+MaxShown        1
+ValueShown      1
+MaxWidth        40
+StatWidth       205
+PercentShown    1
+ValueWidth      40
+ColumnOrder        Stat,Value,Max,Percent
+
+[Skills]
+WindowW         247
+WindowX         256
+WindowY         230
+Shown           0 
+ValueShown      1
+SkillShown      1
+SkillWidth      113
+ValueWidth      76
+WindowH         405
+ColumnOrder        Skill,Value
+
+[SpawnPoints]
+WindowH            307
+WindowW            512
+WindowX            256
+Shown              0
+WindowY            230
+ColumnOrder        X,Y,Z,Remaining
+ZShown             1
+YShown             1
+XShown             1
+RemainingShown     1
+ZWidth             40
+YWidth             40
+RemainingWidth     40
+XWidth             40
